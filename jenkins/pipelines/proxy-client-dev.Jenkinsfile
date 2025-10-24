@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+    
+    environment {
+        SERVICE_NAME = 'proxy-client'
+        DOCKER_IMAGE = 'selimhorri/proxy-client-ecommerce-boot'
+        DOCKER_TAG = "${env.BUILD_NUMBER}"
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                dir('proxy-client') {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                dir('proxy-client') {
+                    sh 'mvn test'
+                }
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: '**/target/surefire-reports/*.xml'
+                }
+            }
+        }
+        
+        stage('Docker Build') {
+            steps {
+                dir('proxy-client') {
+                    script {
+                        def image = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
+                        docker.withRegistry('', 'docker-hub-credentials') {
+                            image.push()
+                            image.push('latest')
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy to Dev') {
+            steps {
+                sh "echo 'Deploying ${SERVICE_NAME} to development environment'"
+                sh "docker run -d --name ${SERVICE_NAME}-dev -p 8900:8900 ${DOCKER_IMAGE}:${DOCKER_TAG}"
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
