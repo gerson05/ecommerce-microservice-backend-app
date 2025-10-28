@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts
+    image: jenkins/jenkins:lts-jdk11
     container_name: jenkins
     user: root
     ports:
@@ -19,22 +19,20 @@ services:
       - JENKINS_ADMIN_PASSWORD=admin123
     networks:
       - jenkins-network
-        command: >
-          bash -c "
-            echo 'Installing Maven and Java 11...' &&
-            apt-get update &&
-            apt-get install -y wget openjdk-11-jdk &&
-            wget -O maven.tar.gz https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz &&
-            tar -xzf maven.tar.gz -C /opt &&
-            ln -s /opt/apache-maven-3.8.6 /opt/maven &&
-            echo 'export MAVEN_HOME=/opt/maven' >> /etc/environment &&
-            echo 'export PATH=\$MAVEN_HOME/bin:\$PATH' >> /etc/environment &&
-            echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /etc/environment &&
-            echo 'export PATH=\$JAVA_HOME/bin:\$PATH' >> /etc/environment &&
-            rm maven.tar.gz &&
-            echo 'Maven and Java 11 installed successfully' &&
-            /usr/local/bin/jenkins.sh
-          "
+    command: >
+      bash -c "
+        echo 'Installing Maven...' &&
+        apt-get update &&
+        apt-get install -y wget &&
+        wget -O maven.tar.gz https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz &&
+        tar -xzf maven.tar.gz -C /opt &&
+        ln -s /opt/apache-maven-3.8.6 /opt/maven &&
+        echo 'export MAVEN_HOME=/opt/maven' >> /etc/environment &&
+        echo 'export PATH=\$MAVEN_HOME/bin:\$PATH' >> /etc/environment &&
+        rm maven.tar.gz &&
+        echo 'Maven installed successfully' &&
+        /usr/local/bin/jenkins.sh
+      "
 
   jenkins-agent:
     image: jenkins/inbound-agent:latest
