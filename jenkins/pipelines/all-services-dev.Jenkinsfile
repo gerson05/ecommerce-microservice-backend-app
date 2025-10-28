@@ -1,12 +1,13 @@
 pipeline {
     agent any
     
-    environment {
-        DOCKER_TAG = "${env.BUILD_NUMBER}"
-        KUBERNETES_NAMESPACE = 'ecommerce-dev'
-        MAVEN_HOME = '/opt/maven'
-        PATH = "${MAVEN_HOME}/bin:${PATH}"
-    }
+        environment {
+            DOCKER_TAG = "${env.BUILD_NUMBER}"
+            KUBERNETES_NAMESPACE = 'ecommerce-dev'
+            MAVEN_HOME = '/opt/maven'
+            JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
+            PATH = "${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
+        }
     
     stages {
         stage('Checkout') {
