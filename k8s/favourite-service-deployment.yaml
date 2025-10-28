@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: favourite-service
+  namespace: ecommerce-prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: favourite-service
+  template:
+    metadata:
+      labels:
+        app: favourite-service
+    spec:
+      containers:
+      - name: favourite-service
+        image: nginx:alpine
+        ports:
+        - containerPort: 8504
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: favourite-service
+  namespace: ecommerce-prod
+spec:
+  selector:
+    app: favourite-service
+  ports:
+  - port: 8504
+    targetPort: 8504
+  type: ClusterIP
+
+
+
+

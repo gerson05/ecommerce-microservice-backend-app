@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-config
+  namespace: ecommerce-prod
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: "http://service-discovery:8761/eureka"
+  SPRING_CLOUD_CONFIG_URI: "http://cloud-config:8888"
+  ZIPKIN_BASE_URL: "http://zipkin:9411"
+  LOGGING_LEVEL_COM_SELIMHORRI: "INFO"
+  LOGGING_LEVEL_ROOT: "WARN"
+
+
+

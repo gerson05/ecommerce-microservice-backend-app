@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-client
+  namespace: ecommerce-prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: proxy-client
+  template:
+    metadata:
+      labels:
+        app: proxy-client
+    spec:
+      containers:
+      - name: proxy-client
+        image: nginx:alpine
+        ports:
+        - containerPort: 8900
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy-client
+  namespace: ecommerce-prod
+spec:
+  selector:
+    app: proxy-client
+  ports:
+  - port: 8900
+    targetPort: 8900
+  type: ClusterIP
+
+
+
+
