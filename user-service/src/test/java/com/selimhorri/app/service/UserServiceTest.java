@@ -36,7 +36,6 @@ class UserServiceTest {
 	@Mock
 	private UserRepository userRepository;
 	
-	@InjectMocks
 	private com.selimhorri.app.service.impl.UserServiceImpl userService;
 	
 	private User testUser;
@@ -44,6 +43,8 @@ class UserServiceTest {
 	
 	@BeforeEach
 	void setUp() {
+		userService = new com.selimhorri.app.service.impl.UserServiceImpl(userRepository);
+		
 		testUser = new User();
 		testUser.setUserId(1);
 		testUser.setFirstName("Test");
@@ -116,7 +117,7 @@ class UserServiceTest {
 	@Test
 	void testDeleteById() {
 		// Arrange
-		when(userRepository.findById(1)).thenReturn(Optional.of(testUser));
+		when(userRepository.existsById(1)).thenReturn(true);
 		
 		// Act
 		userService.deleteById(1);

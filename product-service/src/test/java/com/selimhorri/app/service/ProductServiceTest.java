@@ -40,8 +40,8 @@ class ProductServiceTest {
 	@BeforeEach
 	void setUp() {
 		Category category = new Category();
-		category.setCategId(1);
-		category.setCategName("Electronics");
+		category.setCategoryId(1);
+		category.setCategoryTitle("Electronics");
 		
 		testProduct = new Product();
 		testProduct.setProductId(1);
