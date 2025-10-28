@@ -4,10 +4,8 @@ pipeline {
     environment {
         DOCKER_TAG = "${env.BUILD_NUMBER}"
         KUBERNETES_NAMESPACE = 'ecommerce-dev'
-    }
-    
-    tools {
-        maven 'Maven-3.8.6'
+        MAVEN_HOME = '/opt/maven'
+        PATH = "${MAVEN_HOME}/bin:${PATH}"
     }
     
     stages {
