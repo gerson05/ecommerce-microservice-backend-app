@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.selimhorri.app.domain.Category;
 import com.selimhorri.app.domain.Product;
 import com.selimhorri.app.dto.ProductDto;
-import com.selimhorri.app.exception.wrapper.ProductObjectNotFoundException;
+import com.selimhorri.app.exception.wrapper.ProductNotFoundException;
 import com.selimhorri.app.repository.ProductRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +31,6 @@ class ProductServiceTest {
 	@Mock
 	private ProductRepository productRepository;
 	
-	@InjectMocks
 	private com.selimhorri.app.service.impl.ProductServiceImpl productService;
 	
 	private Product testProduct;
@@ -39,6 +38,8 @@ class ProductServiceTest {
 	
 	@BeforeEach
 	void setUp() {
+		productService = new com.selimhorri.app.service.impl.ProductServiceImpl(productRepository);
+		
 		Category category = new Category();
 		category.setCategoryId(1);
 		category.setCategoryTitle("Electronics");
@@ -93,7 +94,7 @@ class ProductServiceTest {
 		when(productRepository.findById(999)).thenReturn(Optional.empty());
 		
 		// Act & Assert
-		assertThrows(ProductObjectNotFoundException.class, () -> {
+		assertThrows(ProductNotFoundException.class, () -> {
 			productService.findById(999);
 		});
 		verify(productRepository, times(1)).findById(999);
