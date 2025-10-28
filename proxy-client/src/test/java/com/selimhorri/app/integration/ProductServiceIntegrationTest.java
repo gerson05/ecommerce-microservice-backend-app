@@ -14,7 +14,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+	properties = {
+		"eureka.client.register-with-eureka=false",
+		"eureka.client.fetch-registry=false",
+		"spring.cloud.discovery.enabled=false",
+		"spring.profiles.active=test"
+	}
+)
 class ProductServiceIntegrationTest {
 	
 	@LocalServerPort

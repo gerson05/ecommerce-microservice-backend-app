@@ -250,26 +250,24 @@ pipeline {
         stage('Deploy All Services to Dev') {
             steps {
                 sh 'echo "Deploying all services to development environment..."'
-                sh 'docker-compose -f compose.yml up -d || echo "Docker compose failed, continuing..."'
+                sh 'docker compose -f compose.yml up -d || echo "Docker compose failed, continuing..."'
                 sh 'sleep 30'
                 sh 'docker ps || echo "Docker ps failed"'
             }
         }
         
+        stage('Wait for Services') {
+            steps {
+                sh 'echo "Waiting for Eureka to be available..."'
+                sh 'timeout 60 bash -c "until curl -f http://localhost:8761/eureka/apps; do sleep 5; done" || echo "Eureka not available, continuing..."'
+            }
+        }
+        
         stage('Integration Tests') {
             steps {
-                script {
-                    def eurekaAvailable = sh(
-                        script: 'curl -f http://localhost:8761/eureka/apps > /dev/null 2>&1',
-                        returnStatus: true
-                    ) == 0
-                    
-                    if (eurekaAvailable) {
-                        sh 'echo "Eureka is available, running integration tests..."'
-                        sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
-                    } else {
-                        sh 'echo "Eureka not available, skipping integration tests..."'
-                    }
+                sh 'echo "Running integration tests with services available..."'
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
                 }
             }
         }

@@ -18,7 +18,8 @@ import org.springframework.http.ResponseEntity;
 	properties = {
 		"eureka.client.register-with-eureka=false",
 		"eureka.client.fetch-registry=false",
-		"spring.cloud.discovery.enabled=false"
+		"spring.cloud.discovery.enabled=false",
+		"spring.profiles.active=test"
 	}
 )
 class UserServiceIntegrationTest {
