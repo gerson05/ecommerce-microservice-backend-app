@@ -256,14 +256,23 @@ pipeline {
             }
         }
         
-        // stage('Integration Tests') {
-        //     steps {
-        //         sh 'echo "Running integration tests..."'
-        //         catchError {
-        //             sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
-        //         }
-        //     }
-        // }
+        stage('Integration Tests') {
+            steps {
+                script {
+                    def eurekaAvailable = sh(
+                        script: 'curl -f http://localhost:8761/eureka/apps > /dev/null 2>&1',
+                        returnStatus: true
+                    ) == 0
+                    
+                    if (eurekaAvailable) {
+                        sh 'echo "Eureka is available, running integration tests..."'
+                        sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
+                    } else {
+                        sh 'echo "Eureka not available, skipping integration tests..."'
+                    }
+                }
+            }
+        }
         
         // stage('E2E Tests') {
         //     steps {

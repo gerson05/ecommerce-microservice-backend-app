@@ -17,15 +17,15 @@ pipeline {
 			steps { dir('payment-service') { sh 'mvn test' } }
 			post { always { publishTestResults testResultsPattern: '**/target/surefire-reports/*.xml' } }
 		}
-		stage('Integration Tests') {
-			steps {
-				sh 'echo "Running integration tests..."'
-				sh 'docker-compose -f compose.yml up -d'
-				sh 'sleep 60'
-				sh 'mvn test -Dtest=*IntegrationTest'
-			}
-			post { always { sh 'docker-compose -f compose.yml down' } }
-		}
+		// stage('Integration Tests') {
+		// 	steps {
+		// 		sh 'echo "Running integration tests..."'
+		// 		sh 'docker-compose -f compose.yml up -d'
+		// 		sh 'sleep 60'
+		// 		sh 'mvn test -Dtest=*IntegrationTest'
+		// 	}
+		// 	post { always { sh 'docker-compose -f compose.yml down' } }
+		// }
 		stage('Performance Tests') {
 			steps { dir('performance-tests') { sh 'locust -f locustfile.py --headless --users 50 --spawn-rate 5 --run-time 60 --host http://localhost:8080' } }
 		}

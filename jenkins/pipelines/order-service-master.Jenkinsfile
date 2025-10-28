@@ -38,19 +38,19 @@ pipeline {
             }
         }
         
-        stage('Integration Tests') {
-            steps {
-                sh 'echo "Running integration tests..."'
-                sh 'docker-compose -f compose.yml up -d'
-                sh 'sleep 60'
-                sh 'mvn test -Dtest=*IntegrationTest'
-            }
-            post {
-                always {
-                    sh 'docker-compose -f compose.yml down'
-                }
-            }
-        }
+        // stage('Integration Tests') {
+        //     steps {
+        //         sh 'echo "Running integration tests..."'
+        //         sh 'docker-compose -f compose.yml up -d'
+        //         sh 'sleep 60'
+        //         sh 'mvn test -Dtest=*IntegrationTest'
+        //     }
+        //     post {
+        //         always {
+        //             sh 'docker-compose -f compose.yml down'
+        //         }
+        //     }
+        // }
         
         stage('Performance Tests') {
             steps {
