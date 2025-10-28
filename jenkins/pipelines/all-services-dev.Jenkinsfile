@@ -250,7 +250,7 @@ pipeline {
     
     post {
         always {
-            cleanWs()
+            echo 'Pipeline execution completed'
         }
         success {
             echo 'All services deployed successfully!'
