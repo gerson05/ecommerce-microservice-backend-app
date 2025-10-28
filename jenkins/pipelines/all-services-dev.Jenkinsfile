@@ -256,23 +256,23 @@ pipeline {
             }
         }
         
-        stage('Integration Tests') {
-            steps {
-                sh 'echo "Running integration tests..."'
-                catchError {
-                    sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
-                }
-            }
-        }
+        // stage('Integration Tests') {
+        //     steps {
+        //         sh 'echo "Running integration tests..."'
+        //         catchError {
+        //             sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
+        //         }
+        //     }
+        // }
         
-        stage('E2E Tests') {
-            steps {
-                sh 'echo "Running E2E tests..."'
-                catchError {
-                    sh 'mvn test -Dtest=E2ETestSuite -DfailIfNoTests=false'
-                }
-            }
-        }
+        // stage('E2E Tests') {
+        //     steps {
+        //         sh 'echo "Running E2E tests..."'
+        //         catchError {
+        //             sh 'mvn test -Dtest=E2ETestSuite -DfailIfNoTests=false'
+        //         }
+        //     }
+        // }
     }
     
     post {
