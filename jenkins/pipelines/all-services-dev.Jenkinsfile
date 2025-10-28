@@ -258,8 +258,8 @@ pipeline {
         
         stage('Wait for Services') {
             steps {
-                sh 'echo "Waiting for Eureka to be available..."'
-                sh 'timeout 60 bash -c "until curl -f http://localhost:8761/eureka/apps; do sleep 5; done" || echo "Eureka not available, continuing..."'
+                sh 'echo "Checking if Eureka is available..."'
+                sh 'curl -f http://localhost:8761/eureka/apps > /dev/null 2>&1 && echo "Eureka is available" || echo "Eureka not available, continuing without external services"'
             }
         }
         
@@ -284,10 +284,13 @@ pipeline {
             echo 'Pipeline execution completed'
         }
         success {
-            echo 'All services deployed successfully!'
+            echo 'Build and tests completed successfully!'
         }
         failure {
-            echo 'Deployment failed!'
+            echo 'Build or tests failed!'
+        }
+        unstable {
+            echo 'Build completed with warnings (Docker not available)'
         }
     }
 }
