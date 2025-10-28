@@ -20,42 +20,54 @@ pipeline {
                 stage('Build User Service') {
                     steps {
                         dir('user-service') {
-                            sh 'mvn clean package -DskipTests || echo "Build failed, continuing..."'
+                            catchError {
+                                sh 'mvn clean package -DskipTests'
+                            }
                         }
                     }
                 }
                 stage('Build Product Service') {
                     steps {
                         dir('product-service') {
-                            sh 'mvn clean package -DskipTests || echo "Build failed, continuing..."'
+                            catchError {
+                                sh 'mvn clean package -DskipTests'
+                            }
                         }
                     }
                 }
                 stage('Build Order Service') {
                     steps {
                         dir('order-service') {
-                            sh 'mvn clean package -DskipTests || echo "Build failed, continuing..."'
+                            catchError {
+                                sh 'mvn clean package -DskipTests'
+                            }
                         }
                     }
                 }
                 stage('Build Payment Service') {
                     steps {
                         dir('payment-service') {
-                            sh 'mvn clean package -DskipTests || echo "Build failed, continuing..."'
+                            catchError {
+                                sh 'mvn clean package -DskipTests'
+                            }
                         }
                     }
                 }
                 stage('Build Favourite Service') {
                     steps {
                         dir('favourite-service') {
-                            sh 'mvn clean package -DskipTests || echo "Build failed, continuing..."'
+                            catchError {
+                                sh 'mvn clean package -DskipTests'
+                            }
                         }
                     }
                 }
                 stage('Build Proxy Client') {
                     steps {
                         dir('proxy-client') {
-                            sh 'mvn clean package -DskipTests || echo "Build failed, continuing..."'
+                            catchError {
+                                sh 'mvn clean package -DskipTests'
+                            }
                         }
                     }
                 }
@@ -67,42 +79,54 @@ pipeline {
                 stage('User Service Tests') {
                     steps {
                         dir('user-service') {
-                            sh 'mvn test || echo "Tests failed, continuing..."'
+                            catchError {
+                                sh 'mvn test -DfailIfNoTests=false'
+                            }
                         }
                     }
                 }
                 stage('Product Service Tests') {
                     steps {
                         dir('product-service') {
-                            sh 'mvn test || echo "Tests failed, continuing..."'
+                            catchError {
+                                sh 'mvn test -DfailIfNoTests=false'
+                            }
                         }
                     }
                 }
                 stage('Order Service Tests') {
                     steps {
                         dir('order-service') {
-                            sh 'mvn test || echo "Tests failed, continuing..."'
+                            catchError {
+                                sh 'mvn test -DfailIfNoTests=false'
+                            }
                         }
                     }
                 }
                 stage('Payment Service Tests') {
                     steps {
                         dir('payment-service') {
-                            sh 'mvn test || echo "Tests failed, continuing..."'
+                            catchError {
+                                sh 'mvn test -DfailIfNoTests=false'
+                            }
                         }
                     }
                 }
                 stage('Favourite Service Tests') {
                     steps {
                         dir('favourite-service') {
-                            sh 'mvn test || echo "Tests failed, continuing..."'
+                            catchError {
+                                sh 'mvn test -DfailIfNoTests=false'
+                            }
                         }
                     }
                 }
                 stage('Proxy Client Tests') {
                     steps {
                         dir('proxy-client') {
-                            sh 'mvn test || echo "Tests failed, continuing..."'
+                            catchError {
+                                sh 'mvn test -DfailIfNoTests=false'
+                            }
                         }
                     }
                 }
@@ -234,14 +258,18 @@ pipeline {
         stage('Integration Tests') {
             steps {
                 sh 'echo "Running integration tests..."'
-                sh 'mvn test -Dtest=*IntegrationTest || echo "Integration tests failed, continuing..."'
+                catchError {
+                    sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
+                }
             }
         }
         
         stage('E2E Tests') {
             steps {
                 sh 'echo "Running E2E tests..."'
-                sh 'mvn test -Dtest=E2ETestSuite || echo "E2E tests failed, continuing..."'
+                catchError {
+                    sh 'mvn test -Dtest=E2ETestSuite -DfailIfNoTests=false'
+                }
             }
         }
     }
