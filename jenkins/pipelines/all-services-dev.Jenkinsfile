@@ -4,8 +4,6 @@ pipeline {
     environment {
         DOCKER_TAG = "${env.BUILD_NUMBER}"
         KUBERNETES_NAMESPACE = 'ecommerce-dev'
-        MAVEN_HOME = '/usr/share/maven'
-        PATH = "${MAVEN_HOME}/bin:${PATH}"
     }
     
     tools {
@@ -121,9 +119,13 @@ pipeline {
                             script {
                                 try {
                                     def image = docker.build("selimhorri/user-service-ecommerce-boot:${DOCKER_TAG}")
-                                    echo "User service image built successfully"
+                                    docker.withRegistry('', 'docker-hub-credentials') {
+                                        image.push()
+                                        image.push('latest')
+                                    }
+                                    echo "User service image built and pushed successfully"
                                 } catch (Exception e) {
-                                    echo "Docker build failed for user-service: ${e.getMessage()}"
+                                    echo "Docker build/push failed for user-service: ${e.getMessage()}"
                                 }
                             }
                         }
@@ -135,9 +137,13 @@ pipeline {
                             script {
                                 try {
                                     def image = docker.build("selimhorri/product-service-ecommerce-boot:${DOCKER_TAG}")
-                                    echo "Product service image built successfully"
+                                    docker.withRegistry('', 'docker-hub-credentials') {
+                                        image.push()
+                                        image.push('latest')
+                                    }
+                                    echo "Product service image built and pushed successfully"
                                 } catch (Exception e) {
-                                    echo "Docker build failed for product-service: ${e.getMessage()}"
+                                    echo "Docker build/push failed for product-service: ${e.getMessage()}"
                                 }
                             }
                         }
@@ -149,9 +155,13 @@ pipeline {
                             script {
                                 try {
                                     def image = docker.build("selimhorri/order-service-ecommerce-boot:${DOCKER_TAG}")
-                                    echo "Order service image built successfully"
+                                    docker.withRegistry('', 'docker-hub-credentials') {
+                                        image.push()
+                                        image.push('latest')
+                                    }
+                                    echo "Order service image built and pushed successfully"
                                 } catch (Exception e) {
-                                    echo "Docker build failed for order-service: ${e.getMessage()}"
+                                    echo "Docker build/push failed for order-service: ${e.getMessage()}"
                                 }
                             }
                         }
@@ -163,9 +173,13 @@ pipeline {
                             script {
                                 try {
                                     def image = docker.build("selimhorri/payment-service-ecommerce-boot:${DOCKER_TAG}")
-                                    echo "Payment service image built successfully"
+                                    docker.withRegistry('', 'docker-hub-credentials') {
+                                        image.push()
+                                        image.push('latest')
+                                    }
+                                    echo "Payment service image built and pushed successfully"
                                 } catch (Exception e) {
-                                    echo "Docker build failed for payment-service: ${e.getMessage()}"
+                                    echo "Docker build/push failed for payment-service: ${e.getMessage()}"
                                 }
                             }
                         }
@@ -177,9 +191,13 @@ pipeline {
                             script {
                                 try {
                                     def image = docker.build("selimhorri/favourite-service-ecommerce-boot:${DOCKER_TAG}")
-                                    echo "Favourite service image built successfully"
+                                    docker.withRegistry('', 'docker-hub-credentials') {
+                                        image.push()
+                                        image.push('latest')
+                                    }
+                                    echo "Favourite service image built and pushed successfully"
                                 } catch (Exception e) {
-                                    echo "Docker build failed for favourite-service: ${e.getMessage()}"
+                                    echo "Docker build/push failed for favourite-service: ${e.getMessage()}"
                                 }
                             }
                         }
@@ -191,9 +209,13 @@ pipeline {
                             script {
                                 try {
                                     def image = docker.build("selimhorri/proxy-client-ecommerce-boot:${DOCKER_TAG}")
-                                    echo "Proxy client image built successfully"
+                                    docker.withRegistry('', 'docker-hub-credentials') {
+                                        image.push()
+                                        image.push('latest')
+                                    }
+                                    echo "Proxy client image built and pushed successfully"
                                 } catch (Exception e) {
-                                    echo "Docker build failed for proxy-client: ${e.getMessage()}"
+                                    echo "Docker build/push failed for proxy-client: ${e.getMessage()}"
                                 }
                             }
                         }
