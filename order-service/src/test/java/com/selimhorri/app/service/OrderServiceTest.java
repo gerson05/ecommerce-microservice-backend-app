@@ -8,7 +8,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -43,15 +42,14 @@ class OrderServiceTest {
 	void setUp() {
 		testOrder = new Order();
 		testOrder.setOrderId(1);
-		testOrder.setOrderTrackingNumber("ORD-001");
+		testOrder.setOrderDesc("Test Order");
 		testOrder.setOrderDate(LocalDateTime.now());
-		testOrder.setOrderTotal(BigDecimal.valueOf(100.0));
-		testOrder.setOrderStatus(OrderStatus.PENDING);
+		testOrder.setOrderFee(100.0);
 		
 		testOrderDto = new OrderDto();
 		testOrderDto.setOrderId(1);
-		testOrderDto.setOrderTrackingNumber("ORD-001");
-		testOrderDto.setOrderTotal(BigDecimal.valueOf(100.0));
+		testOrderDto.setOrderDesc("Test Order");
+		testOrderDto.setOrderFee(100.0);
 	}
 	
 	@Test
@@ -79,7 +77,7 @@ class OrderServiceTest {
 		// Assert
 		assertNotNull(result);
 		assertEquals(1, result.getOrderId());
-		assertEquals("ORD-001", result.getOrderTrackingNumber());
+		assertEquals("Test Order", result.getOrderDesc());
 		verify(orderRepository, times(1)).findById(1);
 	}
 	
@@ -112,12 +110,12 @@ class OrderServiceTest {
 	@Test
 	void testUpdateStatus() {
 		// Arrange
-		testOrder.setOrderStatus(OrderStatus.COMPLETED);
+		// testOrder doesn't have orderStatus field
 		when(orderRepository.findById(1)).thenReturn(Optional.of(testOrder));
 		when(orderRepository.save(any(Order.class))).thenReturn(testOrder);
 		
 		// Act
-		testOrderDto.setOrderStatus("COMPLETED");
+		// testOrderDto doesn't have orderStatus field
 		OrderDto result = orderService.update(testOrderDto);
 		
 		// Assert

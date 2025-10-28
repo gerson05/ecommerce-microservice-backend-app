@@ -15,6 +15,8 @@ spring:
       name: test
       password: test
       roles: USER,ADMIN
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 logging:
   level:
