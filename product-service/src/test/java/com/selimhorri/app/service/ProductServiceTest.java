@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.selimhorri.app.domain.Category;
 import com.selimhorri.app.domain.Product;
+import com.selimhorri.app.dto.CategoryDto;
 import com.selimhorri.app.dto.ProductDto;
 import com.selimhorri.app.exception.wrapper.ProductNotFoundException;
 import com.selimhorri.app.repository.ProductRepository;
@@ -53,10 +54,15 @@ class ProductServiceTest {
 		testProduct.setQuantity(50);
 		testProduct.setCategory(category);
 		
+		CategoryDto categoryDto = new CategoryDto();
+		categoryDto.setCategoryId(1);
+		categoryDto.setCategoryTitle("Electronics");
+		
 		testProductDto = new ProductDto();
 		testProductDto.setProductId(1);
 		testProductDto.setProductTitle("Test Product");
 		testProductDto.setPriceUnit(100.0);
+		testProductDto.setCategoryDto(categoryDto);
 	}
 	
 	@Test

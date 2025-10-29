@@ -20,10 +20,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.selimhorri.app.domain.Cart;
 import com.selimhorri.app.domain.Order;
 import com.selimhorri.app.domain.OrderStatus;
+import com.selimhorri.app.dto.CartDto;
 import com.selimhorri.app.dto.OrderDto;
-import com.selimhorri.app.exception.wrapper.OrderObjectNotFoundException;
+import com.selimhorri.app.exception.wrapper.OrderNotFoundException;
 import com.selimhorri.app.repository.OrderRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,16 +42,26 @@ class OrderServiceTest {
 	
 	@BeforeEach
 	void setUp() {
+		Cart cart = new Cart();
+		cart.setCartId(1);
+		cart.setCartDesc("Test Cart");
+		
 		testOrder = new Order();
 		testOrder.setOrderId(1);
 		testOrder.setOrderDesc("Test Order");
 		testOrder.setOrderDate(LocalDateTime.now());
 		testOrder.setOrderFee(100.0);
+		testOrder.setCart(cart);
+		
+		CartDto cartDto = new CartDto();
+		cartDto.setCartId(1);
+		cartDto.setCartDesc("Test Cart");
 		
 		testOrderDto = new OrderDto();
 		testOrderDto.setOrderId(1);
 		testOrderDto.setOrderDesc("Test Order");
 		testOrderDto.setOrderFee(100.0);
+		testOrderDto.setCartDto(cartDto);
 	}
 	
 	@Test
@@ -87,7 +99,7 @@ class OrderServiceTest {
 		when(orderRepository.findById(999)).thenReturn(Optional.empty());
 		
 		// Act & Assert
-		assertThrows(OrderObjectNotFoundException.class, () -> {
+		assertThrows(OrderNotFoundException.class, () -> {
 			orderService.findById(999);
 		});
 		verify(orderRepository, times(1)).findById(999);

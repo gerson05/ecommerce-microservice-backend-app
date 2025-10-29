@@ -26,6 +26,7 @@ import com.selimhorri.app.domain.Address;
 import com.selimhorri.app.domain.Credential;
 import com.selimhorri.app.domain.RoleBasedAuthority;
 import com.selimhorri.app.domain.User;
+import com.selimhorri.app.dto.CredentialDto;
 import com.selimhorri.app.dto.UserDto;
 import com.selimhorri.app.exception.wrapper.UserObjectNotFoundException;
 import com.selimhorri.app.repository.UserRepository;
@@ -45,18 +46,30 @@ class UserServiceTest {
 	void setUp() {
 		userService = new com.selimhorri.app.service.impl.UserServiceImpl(userRepository);
 		
+		Credential credential = new Credential();
+		credential.setCredentialId(1);
+		credential.setUsername("testuser");
+		credential.setPassword("password");
+		
 		testUser = new User();
 		testUser.setUserId(1);
 		testUser.setFirstName("Test");
 		testUser.setLastName("User");
 		testUser.setEmail("test@example.com");
 		testUser.setImageUrl("https://example.com/image.jpg");
+		testUser.setCredential(credential);
+		
+		CredentialDto credentialDto = new CredentialDto();
+		credentialDto.setCredentialId(1);
+		credentialDto.setUsername("testuser");
+		credentialDto.setPassword("password");
 		
 		testUserDto = new UserDto();
 		testUserDto.setUserId(1);
 		testUserDto.setFirstName("Test");
 		testUserDto.setLastName("User");
 		testUserDto.setEmail("test@example.com");
+		testUserDto.setCredentialDto(credentialDto);
 	}
 	
 	@Test
