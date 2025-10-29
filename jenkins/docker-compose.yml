@@ -6,7 +6,7 @@ services:
     container_name: jenkins
     user: root
     ports:
-      - "8080:8080"
+      - "8082:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
@@ -19,20 +19,7 @@ services:
       - JENKINS_ADMIN_PASSWORD=admin123
     networks:
       - jenkins-network
-    command: >
-      bash -c "
-        echo 'Installing Maven...' &&
-        apt-get update &&
-        apt-get install -y wget &&
-        wget -O maven.tar.gz https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz &&
-        tar -xzf maven.tar.gz -C /opt &&
-        ln -s /opt/apache-maven-3.8.6 /opt/maven &&
-        echo 'export MAVEN_HOME=/opt/maven' >> /etc/environment &&
-        echo 'export PATH=\$MAVEN_HOME/bin:\$PATH' >> /etc/environment &&
-        rm maven.tar.gz &&
-        echo 'Maven installed successfully' &&
-        /usr/local/bin/jenkins.sh
-      "
+    # Use default entrypoint and command from the Jenkins image
 
   jenkins-agent:
     image: jenkins/inbound-agent:latest
@@ -40,7 +27,7 @@ services:
     depends_on:
       - jenkins
     environment:
-      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_URL=http://jenkins:8082
       - JENKINS_SECRET=agent-secret
       - JENKINS_AGENT_NAME=agent
     volumes:

@@ -22,7 +22,7 @@ pipeline {
                     steps {
                         dir('user-service') {
                             catchError {
-                                sh 'mvn clean package -DskipTests'
+                                sh './mvnw clean package -DskipTests'
                             }
                         }
                     }
@@ -31,7 +31,7 @@ pipeline {
                     steps {
                         dir('product-service') {
                             catchError {
-                                sh 'mvn clean package -DskipTests'
+                                sh './mvnw clean package -DskipTests'
                             }
                         }
                     }
@@ -40,7 +40,7 @@ pipeline {
                     steps {
                         dir('order-service') {
                             catchError {
-                                sh 'mvn clean package -DskipTests'
+                                sh './mvnw clean package -DskipTests'
                             }
                         }
                     }
@@ -49,7 +49,7 @@ pipeline {
                     steps {
                         dir('payment-service') {
                             catchError {
-                                sh 'mvn clean package -DskipTests'
+                                sh './mvnw clean package -DskipTests'
                             }
                         }
                     }
@@ -58,7 +58,7 @@ pipeline {
                     steps {
                         dir('favourite-service') {
                             catchError {
-                                sh 'mvn clean package -DskipTests'
+                                sh './mvnw clean package -DskipTests'
                             }
                         }
                     }
@@ -67,7 +67,7 @@ pipeline {
                     steps {
                         dir('proxy-client') {
                             catchError {
-                                sh 'mvn clean package -DskipTests'
+                                sh './mvnw clean package -DskipTests'
                             }
                         }
                     }
@@ -81,7 +81,7 @@ pipeline {
                     steps {
                         dir('user-service') {
                             catchError {
-                                sh 'mvn test -DfailIfNoTests=false'
+                                sh './mvnw test -DfailIfNoTests=false'
                             }
                         }
                     }
@@ -90,7 +90,7 @@ pipeline {
                     steps {
                         dir('product-service') {
                             catchError {
-                                sh 'mvn test -DfailIfNoTests=false'
+                                sh './mvnw test -DfailIfNoTests=false'
                             }
                         }
                     }
@@ -99,7 +99,7 @@ pipeline {
                     steps {
                         dir('order-service') {
                             catchError {
-                                sh 'mvn test -DfailIfNoTests=false'
+                                sh './mvnw test -DfailIfNoTests=false'
                             }
                         }
                     }
@@ -108,7 +108,7 @@ pipeline {
                     steps {
                         dir('payment-service') {
                             catchError {
-                                sh 'mvn test -DfailIfNoTests=false'
+                                sh './mvnw test -DfailIfNoTests=false'
                             }
                         }
                     }
@@ -117,7 +117,7 @@ pipeline {
                     steps {
                         dir('favourite-service') {
                             catchError {
-                                sh 'mvn test -DfailIfNoTests=false'
+                                sh './mvnw test -DfailIfNoTests=false'
                             }
                         }
                     }
@@ -126,7 +126,7 @@ pipeline {
                     steps {
                         dir('proxy-client') {
                             catchError {
-                                sh 'mvn test -DfailIfNoTests=false'
+                                sh './mvnw test -DfailIfNoTests=false'
                             }
                         }
                     }
@@ -267,7 +267,7 @@ pipeline {
             steps {
                 sh 'echo "Running integration tests with security disabled..."'
                 catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                    sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
+                    sh './mvnw test -Dtest=*IntegrationTest -DfailIfNoTests=false'
                 }
             }
         }
