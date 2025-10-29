@@ -44,7 +44,7 @@ class OrderServiceTest {
 	void setUp() {
 		Cart cart = new Cart();
 		cart.setCartId(1);
-		cart.setCartDesc("Test Cart");
+		cart.setUserId(1);
 		
 		testOrder = new Order();
 		testOrder.setOrderId(1);
@@ -55,7 +55,7 @@ class OrderServiceTest {
 		
 		CartDto cartDto = new CartDto();
 		cartDto.setCartId(1);
-		cartDto.setCartDesc("Test Cart");
+		cartDto.setUserId(1);
 		
 		testOrderDto = new OrderDto();
 		testOrderDto.setOrderId(1);
