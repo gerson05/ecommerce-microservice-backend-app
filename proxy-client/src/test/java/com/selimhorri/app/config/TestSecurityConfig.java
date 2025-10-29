@@ -18,7 +18,7 @@ public class TestSecurityConfig extends WebSecurityConfigurerAdapter {
             .cors().disable()
             .csrf().disable()
             .authorizeRequests()
-                .anyRequest().permitAll() // Permitir todas las requests en tests
+                .antMatchers("/**").permitAll() // Permitir todas las requests en tests
             .and()
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -265,7 +265,10 @@ pipeline {
         
         stage('Integration Tests') {
             steps {
-                sh 'echo "Skipping integration tests - fixing configuration issues"'
+                sh 'echo "Running integration tests with security disabled..."'
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    sh 'mvn test -Dtest=*IntegrationTest -DfailIfNoTests=false'
+                }
             }
         }
         

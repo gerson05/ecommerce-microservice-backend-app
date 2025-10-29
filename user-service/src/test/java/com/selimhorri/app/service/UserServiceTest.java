@@ -129,9 +129,6 @@ class UserServiceTest {
 	
 	@Test
 	void testDeleteById() {
-		// Arrange
-		when(userRepository.existsById(1)).thenReturn(true);
-		
 		// Act
 		userService.deleteById(1);
 		
